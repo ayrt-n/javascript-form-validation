@@ -6,3 +6,8 @@
 .card {
   max-width: 600px;
 }
+
+.error {
+  color: red;
+  font-size: 0.75rem;
+}
