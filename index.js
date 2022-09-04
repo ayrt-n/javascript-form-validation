@@ -42,16 +42,67 @@ const validatePasswordConfirmation = (passwordInput, passwordConfirmationInput) 
   return !!isValid;
 };
 
-// Email input listener
-email.addEventListener('change', () => {
-  const error = email.nextElementSibling
+// Error Display Helper Functions
+const displayError = (input, message) => {
+  const error = input.nextElementSibling;
 
+  input.classList.add('is-danger');
+  error.textContent = message;
+};
+
+const clearError = (input) => {
+  const error = input.nextElementSibling;
+
+  input.classList.remove('is-danger');
+  error.textContent = '';
+};
+
+// Input event listeners to flag incorrect input following change to input
+email.addEventListener('change', () => {
   if (validateEmail(email)) {
-    email.classList.remove('is-danger');
-    error.textContent = '';
+    clearError(email);
   } else {
-    email.classList.add('is-danger');
-    error.textContent = '* Invalid email. Please provide a real email address.'
+    displayError(email, '* Invalid email. Please provide a real email address.');
+  }
+});
+
+country.addEventListener('change', () => {
+  const countryParent = country.parentElement;
+
+  if (validateCountry(country)) {
+    clearError(countryParent);
+  } else {
+    displayError(countryParent, '* Invalid country. Please select one of the available options.');
+  }
+});
+
+zip.addEventListener('change', () => {
+  if (validateZip(zip)) {
+    clearError(zip);
+  } else {
+    displayError(zip, '* Zipcode is required. Please enter valid zipcode.')
+  }
+});
+
+password.addEventListener('change', () => {
+  if (validatePassword(password)) {
+    clearError(password);
+  } else {
+    displayError(password, '* Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special symbol.');
+  }
+
+  if (validatePasswordConfirmation(password, passwordConfirmation)) {
+    clearError(passwordConfirmation);
+  } else {
+    displayError(passwordConfirmation, '* Password and password confirmation do not match.');
+  }
+});
+
+passwordConfirmation.addEventListener('change', () => {
+  if (validatePasswordConfirmation(password, passwordConfirmation)) {
+    clearError(passwordConfirmation);
+  } else {
+    displayError(passwordConfirmation, '* Password and password confirmation do not match.');
   }
 });
 
