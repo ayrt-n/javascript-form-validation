@@ -43,7 +43,17 @@ const validatePasswordConfirmation = (passwordInput, passwordConfirmationInput) 
 };
 
 // Email input listener
+email.addEventListener('change', () => {
+  const error = email.nextElementSibling
 
+  if (validateEmail(email)) {
+    email.classList.remove('is-danger');
+    error.textContent = '';
+  } else {
+    email.classList.add('is-danger');
+    error.textContent = '* Invalid email. Please provide a real email address.'
+  }
+});
 
 // Form Submit Event Listener
 form.addEventListener('submit', (e) => {
