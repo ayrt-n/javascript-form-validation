@@ -27,7 +27,7 @@ const validateCountry = (countryInput) => {
 };
 
 const validateZip = (zipcodeInput) => {
-  const isValid = zipcodeInput.value !== '';
+  const isValid = zipcodeInput.value !== '' && zipcodeInput.value.match(/^ *$/) === null;
   return !!isValid;
 };
 
