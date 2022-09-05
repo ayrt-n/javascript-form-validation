@@ -106,13 +106,51 @@ passwordConfirmation.addEventListener('change', () => {
   }
 });
 
-// Form Submit Event Listener
+// On submit verify all form inputs
 form.addEventListener('submit', (e) => {
   e.preventDefault();
+  let isValid = true;
+  const formOutput = document.getElementById('form-output');
 
-  console.log(`Email is ${validateEmail(email)}`);
-  console.log(`Country is ${validateCountry(country)}`);
-  console.log(`Zipcode is ${validateZip(zip)}`);
-  console.log(`Password is ${validatePassword(password)}`);
-  console.log(`Password Confirmation is ${validatePasswordConfirmation(password, passwordConfirmation)}`);
+  if (validateEmail(email)) {
+    clearError(email);
+  } else {
+    displayError(email, '* Invalid email. Please provide a real email address.');
+    isValid = false;
+  }
+
+  const countryParent = country.parentElement;
+  if (validateCountry(country)) {
+    clearError(countryParent);
+  } else {
+    displayError(countryParent, '* Invalid country. Please select one of the available options.');
+    isValid = false;
+  }
+
+  if (validateZip(zip)) {
+    clearError(zip);
+  } else {
+    displayError(zip, '* Zipcode is required. Please enter valid zipcode.')
+    isValid = false;
+  }
+
+  if (validatePassword(password)) {
+    clearError(password);
+  } else {
+    displayError(password, '* Password must contain at least 8 characters, one uppercase letter, one lowercase letter, one number, and one special symbol.');
+    isValid = false;
+  }
+
+  if (validatePasswordConfirmation(password, passwordConfirmation)) {
+    clearError(passwordConfirmation);
+  } else {
+    displayError(passwordConfirmation, '* Password and password confirmation do not match.');
+    isValid = false;
+  }
+
+  if (isValid) {
+    formOutput.textContent = 'Form has been submitted. Thank you!'
+  } else {
+    formOutput.textContent = 'Could not submit form. Please fix errors and resubmit!'
+  }
 });
